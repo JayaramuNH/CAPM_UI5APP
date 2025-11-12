@@ -1,0 +1,54 @@
+###
+#
+#Browse all books  
+#
+GET http://localhost:4004/odata/v4/catalog/Books
+
+
+
+###
+# Browse book by id
+GET http://localhost:4004/odata/v4/catalog/Books('19cc4732-20d8-4ddd-9b6a-fa185350ef57')
+
+
+###
+# Browse book by id
+POST  http://localhost:4004/odata/v4/catalog/Books
+Content-Type: application/json
+
+{
+  
+   "title": "Some Book",
+      "author": "Some author",
+      "price": 75,
+      "stock": 6 ,
+      "location": "Loc2",
+      "gen": "Male"
+}
+
+###
+# Browse book by id
+PATCH   http://localhost:4004/odata/v4/catalog/Books(19cc4732-20d8-4ddd-9b6a-fa185350ef57)
+Content-Type: application/json
+
+{
+  
+   "title": "title02_",
+      "author": "Nikil",
+      "price": 150,
+      "stock": 10 ,
+      "location": "Loc1"
+}
+
+###
+# Browse book by id
+PUT    http://localhost:4004/odata/v4/catalog/Books(19cc4732-20d8-4ddd-9b6a-fa185350ef57)
+Content-Type: application/json
+
+{ 
+   "location": "Loc1"
+}
+
+###
+# Browse book by id
+DELETE http://localhost:4004/odata/v4/catalog/Books(19cc4732-20d8-4ddd-9b6a-fa185350ef57)
