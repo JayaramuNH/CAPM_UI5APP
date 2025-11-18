@@ -109,7 +109,7 @@
 
                 <VBox id="_IDGenVBox2">
 
-                    <Panel id="addBookPanel" width="60rem" class="sapUiResponsiveMargin" visible="false">
+                    <Panel id="editBookPanel" width="60rem" class="sapUiResponsiveMargin" visible="false">
 
                         <f:Form id="FormChange354" editable="true">
                             <f:toolbar>
@@ -117,7 +117,7 @@
                                     <Title id="Title1" text="Book Deatils"/>
                                     <ToolbarSpacer id="_IDGenToolbarSpacer2" />
                                     <Button id="_IDGenButton2" text="Clear" press="onClearPress"/>
-                                    <Button id="_IDGenButton3" text="Save" press="onSavePress"/>
+                                    <Button id="_IDGenButton3" text="Update" press="onUpdatePress"/>
                                 </Toolbar>
                             </f:toolbar>
                             <f:layout>
@@ -126,40 +126,49 @@
                             <f:formContainers>
                                 <f:FormContainer id="_IDGenFormContainer">
                                     <f:formElements>
+                                        <f:FormElement id="_IDGenFormElement11" label="ID">
+                                            <f:fields>
+                                                <Input id="_IDInputID" enabled="false"/>
+                                            </f:fields>
+                                        </f:FormElement>
                                         <f:FormElement id="_IDGenFormElement1" label="title">
                                             <f:fields>
-                                                <Input id="_IDGenInput" value="{myBookModel>/newBook/title}" />
+                                                <Input id="_IDInputTitle" />
                                             </f:fields>
                                         </f:FormElement>
                                         <f:FormElement id="_IDGenFormElement2" label="author">
                                             <f:fields>
-                                                <Input id="_IDGenInput1" value="{myBookModel>/newBook/author}" />
+                                                <Input id="_IDInputAuthor" />
                                             </f:fields>
                                         </f:FormElement>
                                         <f:FormElement id="_IDGenFormElement3" label="price">
                                             <f:fields>
-                                                <Input id="_IDGenInput2" value="{myBookModel>/newBook/price}" />
+                                                <Input id="_IDInputPrice" />
                                             </f:fields>
                                         </f:FormElement>
                                         <f:FormElement id="_IDGenFormElement4" label="stock">
                                             <f:fields>
-                                                <Input id="_IDGenInput3" value="{myBookModel>/newBook/stock}" />
+                                                <Input id="_IDInputStock" />
                                             </f:fields>
                                         </f:FormElement>
                                         <f:FormElement id="_IDGenFormElement5" label="location">
                                             <f:fields>
-                                                <Input id="_IDGenInput4" value="{myBookModel>/newBook/location}" />
+                                                <Input id="_IDInputLocation" />
                                             </f:fields>
                                         </f:FormElement>
                                         <f:FormElement id="_IDGenFormElement6" label="gen">
                                             <f:fields>
-                                                <Input id="_IDGenInput5" value="{myBookModel>/newBook/gen}" />
+                                                <Input id="_IDInputGen" />
                                             </f:fields>
                                         </f:FormElement>
                                     </f:formElements>
                                 </f:FormContainer>
                             </f:formContainers>
                         </f:Form>
+                    </Panel>
+
+
+                    <Panel id="addBookPanel" width="60rem" class="sapUiResponsiveMargin" visible="false">
 
                         <Table id="idBooksTable" inset="false" items="{
                                 path: '/Books',
@@ -204,7 +213,7 @@
                                         <Input id="_IDGenText5" value="{author}" valueLiveUpdate="true" liveChange=".onInputChange" />
                                         <Input id="_IDGenText6" value="{price}" valueLiveUpdate="true" liveChange=".onInputChange" />
                                         <Input id="_IDGenText7" value="{stock}" valueLiveUpdate="true" liveChange=".onInputChange" />
-                                        <Button id="addUserButton22"  text="..." tooltip="Action" press=".onActionPressed($event)" />
+                                        <Button id="addUserButton22" text="..." tooltip="Action" press=".onActionPressed($event)" />
                                     </cells>
                                 </ColumnListItem>
                             </items>

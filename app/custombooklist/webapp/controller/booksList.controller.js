@@ -75,6 +75,79 @@ sap.ui.define([
 
 		},
 
+		onEditPress: function () {
+			var oData = this._oSelectedContext.getObject();
+			MessageToast.show("Edit Action for item ID: " + oData.ID);
+			this.onEditBookPressed();
+			var product_model = this.getOwnerComponent().getModel();
+			var aFilters = [
+				new Filter("ID", FilterOperator.EQ, oData.ID)
+			];
+			var oBinding = product_model.bindList("/Books");
+			oBinding.filter(aFilters);
+
+			oBinding.requestContexts().then(function (aContexts) {
+				if (aContexts.length > 0) {
+					aContexts.forEach((oContext) => {
+						let oUser = oContext.getObject();
+						this.getView().byId("_IDInputID").setValue(oUser.ID);
+						this.getView().byId("_IDInputTitle").setValue(oUser.title);
+						this.getView().byId("_IDInputAuthor").setValue(oUser.author);
+						this.getView().byId("_IDInputPrice").setValue(oUser.price);
+						this.getView().byId("_IDInputStock").setValue(oUser.stock);
+						this.getView().byId("_IDInputLocation").setValue(oUser.location);
+						this.getView().byId("_IDInputGen").setValue(oUser.gen);
+					});
+				} else {
+					MessageBox.error("No Book Found with Specified ID .");
+				}
+
+			}.bind(this)).catch((oError) => {
+				MessageBox.error("Error Retriving book details ." + oError);
+
+			});
+		},
+
+		onUpdatePress: function () {
+
+			var itemID = this.getView().byId("_IDInputID").getValue();
+			var title = this.getView().byId("_IDInputTitle").getValue();
+			var author = this.getView().byId("_IDInputAuthor").getValue();
+			var price = this.getView().byId("_IDInputPrice").getValue();
+			var stock = this.getView().byId("_IDInputStock").getValue();
+			var location = this.getView().byId("_IDInputLocation").getValue();
+			var gen = this.getView().byId("_IDInputGen").getValue();
+
+			var update_model = this.getView().getModel();
+			var sPath = "/Books('" + itemID + "')";
+			var oContext = update_model.bindContext(sPath).getBoundContext();
+
+			var oView = this.getView();
+			function resetBusy() {
+				oView.setBusy(false);
+			}
+			oContext.setProperty("title", title);
+			oContext.setProperty("author", author);
+			oContext.setProperty("price", price);
+			oContext.setProperty("stock", stock);
+			oContext.setProperty("location", location);
+			oContext.setProperty("gen", gen);
+
+			update_model.submitBatch("auto").then(function () {
+				resetBusy();
+				MessageBox.success("Item Details Updated Successfully");
+			}).catch(function (err) {
+				MessageBox.error("An Error Occured while updating the item.. !" + err);
+			});
+
+		},
+
+		onEditBookPressed: function (oEvent) {
+			this._HideAllPanel();
+			this.byId("editBookPanel").setVisible(true);
+
+		},
+
 		onAddBookPressed: function (oEvent) {
 			this._HideAllPanel();
 			this.byId("addBookPanel").setVisible(true);
@@ -87,6 +160,7 @@ sap.ui.define([
 		},
 
 		_HideAllPanel: function () {
+			this.byId("editBookPanel").setVisible(false);
 			this.byId("addBookPanel").setVisible(false);
 			this.byId("viewBookPanel").setVisible(false);
 		},

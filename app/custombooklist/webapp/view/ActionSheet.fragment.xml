@@ -4,6 +4,7 @@
         <buttons>
             <Button id="_IDGenButton5" icon="sap-icon://show" text="Show" press="onViewPress" />
             <Button id="_IDGenButton6" icon="sap-icon://delete" text="Delete"  press="onDeletePress" />
+             <Button id="_IDGenButton67" icon="sap-icon://edit" text="Edit"  press="onEditPress" />
         </buttons>
     </ActionSheet>
 </core:FragmentDefinition>
