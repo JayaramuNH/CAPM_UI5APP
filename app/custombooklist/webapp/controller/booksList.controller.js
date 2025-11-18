@@ -1,3 +1,5 @@
+// const { Fragment } = require("react/jsx-runtime");
+
 sap.ui.define([
 	"sap/ui/core/Messaging",
 	"sap/ui/core/mvc/Controller",
@@ -7,9 +9,10 @@ sap.ui.define([
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/FilterType",
-	"sap/ui/model/json/JSONModel"
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/core/Fragment"
 ], (Messaging, Controller, MessageToast, MessageBox, Sorter, Filter, FilterOperator,
-	FilterType, JSONModel) => {
+	FilterType, JSONModel, Fragment) => {
 	"use strict";
 
 	return Controller.extend("custom.booklist.custombooklist.controller.booksList", {
@@ -33,6 +36,43 @@ sap.ui.define([
 
 			oMessageModelBinding.attachChange(this.onMessageBindingChange, this);
 			this._bTechnicalErrors = false;
+		},
+
+		onActionPressed: function (oEvent) {
+			var oButton = oEvent.getSource();
+			var oContext = oButton.getBindingContext();
+			this._oSelectedContext = oContext;
+
+			if (!this._oActionSheet) {
+				Fragment.load({
+					name: "custom.booklist.custombooklist.view.ActionSheet",
+					controller: this
+				}).then(function (oActionSheet) {
+					this._oActionSheet = oActionSheet;
+					this.getView().addDependent(this._oActionSheet);
+					this._oActionSheet.openBy(oButton);
+				}.bind(this));
+			} else {
+				this._oActionSheet.openBy(oButton);
+			}
+		},
+
+		onDeletePress: function () {
+			var oContext = this._oSelectedContext;
+			var sBookId = oContext.getProperty("ID");
+			MessageBox.confirm("Are you sure you want to delete this book with ID: " + sBookId + " .?", {
+				actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+				onClose: function (oAction) {
+					if (oAction === MessageBox.Action.YES) {
+						oContext.delete("$direct").then(function () {
+							MessageBox.success("Book ID : " + sBookId + " Deleted Scussessfully.");
+						}).catch(function (oError) {
+							MessageBox.error("Error deleting Book ID : " + sBookId + "." + oError);
+						});
+					}
+				}
+			})
+
 		},
 
 		onAddBookPressed: function (oEvent) {
